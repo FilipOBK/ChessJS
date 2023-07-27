@@ -6,7 +6,9 @@ const infoDisplay = document.querySelector("#infoDisplay");
 const WIDTH = 8;
 let currPlayer = 'white';
 
-let checkmate = false;
+let validWhiteMoves = 20;
+let validBlackMoves = 20;
+
 let fromTile;
 let toTile;
 
@@ -86,6 +88,8 @@ function move(from, to) {
                 move(0, 3);
                 break;
             default:
+                changePlayer();
+                break;
         }
         changePlayer();
     }
@@ -118,13 +122,22 @@ function move(from, to) {
     updateValidMoves();
     changePlayer();
 
+    validWhiteMoves = 0;
+    validBlackMoves = 0;
     // Whenever a move is played, any prev EntPassents are redacted
     board.forEach(tile => {
         if(tile.piece) {
             tile.piece.canBeEntPassented = false;
             tile.piece.possibleMoves = getValidMoves(board, tile);
+            tile.piece.color === 'white' ? 
+                validWhiteMoves += tile.piece.possibleMoves.length :
+                validBlackMoves += tile.piece.possibleMoves.length;
         }
     });
+
+    if(!(validWhiteMoves && validBlackMoves)) {
+        checkmate(validWhiteMoves ? 'black' : 'white');
+    }
 }
 
 function updateValidMoves() {
@@ -168,4 +181,12 @@ function selectEmptyTile(e) {
     if(fromTile !== undefined) board[fromTile].piece?.possibleMoves.includes(toTile) ?
         move(fromTile, toTile) :
         deselectPiece();
+}
+
+function checkmate(checkmatedColor) {
+    if(checkmatedColor === 'black') {
+        infoDisplay.textContent = "CHECKMATE, WHITE WINS";
+    } else {
+        infoDisplay.textContent = "CHECKMATE, BLACK WINS";
+    }
 }
