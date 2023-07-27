@@ -117,14 +117,14 @@ function getValidMoves(board, tile, check4check = true) {
             }
             break;
         case 'king':
-            checkValid(-1);
-            checkValid(+1);
+            if(strtIdx % 8 !== 0) checkValid(-1);
+            if(strtIdx % 8 !== 7) checkValid(+1);
             checkValid(WIDTH);
             checkValid(-WIDTH);
-            checkValid(WIDTH + 1);
-            checkValid(WIDTH - 1);
-            checkValid(-WIDTH + 1);
-            checkValid(-WIDTH - 1);
+            if(strtIdx % 8 !== 7) checkValid(WIDTH + 1);
+            if(strtIdx % 8 !== 0) checkValid(WIDTH - 1);
+            if(strtIdx % 8 !== 7) checkValid(-WIDTH + 1);
+            if(strtIdx % 8 !== 0) checkValid(-WIDTH - 1);
 
             // Castling
             if(!piece.hasMoved) {
