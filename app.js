@@ -1,4 +1,4 @@
-// TODO, PROMOTIONS, CHECKMATE
+// TODO, PROMOTIONS
 
 let gameboard = document.querySelector("#gameboard");
 const playerDisplay = document.querySelector("#playerInfo");
